@@ -78,11 +78,11 @@ const App = () => {
       }
 
   const removePerson = (event) => {
-    const removedId = (event.target.value)
-    const removed = persons.find(person => person.id == removedId);
+    const removedId = Number(event.target.value)
+    const removed = persons.find(person => person.id === removedId);
 
     if (window.confirm(`poistetaanko ${removed.name}`)) {
-      let filtered = persons.filter(person => person.id != removedId)
+      let filtered = persons.filter(person => person.id !== removedId)
       contactService
         .remove(removedId)
         .then(setPersons(filtered))
