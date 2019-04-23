@@ -1,0 +1,11 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1Y2I4MjExNzgwYWU5MjgzZTlmOWU5MGQiLCJpYXQiOjE1NTU1ODAyNDF9.g4HzwNZNtWGvceskpx1__GfjD5O0NW2fBLibtjE_iNc
+
+{
+    "title": "poistetaan",
+    "author": "halleluja",
+    "url": "urli",
+    "likes": "15",
+    "userId": "5cb8211780ae9283e9f9e90d"
+} 

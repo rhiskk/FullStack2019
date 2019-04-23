@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/5cb5cca0487f9854658d5930
+Content-Type: application/json
+
+{
+    "title": "poustaus",
+    "author": "halleluja",
+    "url": "urli",
+    "likes": 30
+} 
