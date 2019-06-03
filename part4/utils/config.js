@@ -6,6 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
   let MONGODB_URI = process.env.MONGODB_URI
   
   if (process.env.NODE_ENV === 'test') {
+    PORT = process.env.TEST_PORT
     MONGODB_URI = process.env.TEST_MONGODB_URI
   }
 
