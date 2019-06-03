@@ -1,0 +1,29 @@
+{
+  "anecdotes": [
+    {
+      "content": "oko",
+      "votes": 66,
+      "id": 2
+    },
+    {
+      "content": "dede",
+      "votes": 67,
+      "id": 3
+    },
+    {
+      "content": "new note",
+      "votes": 2,
+      "id": 4
+    },
+    {
+      "content": "newnewnew",
+      "votes": 15,
+      "id": 5
+    },
+    {
+      "content": "hello worlddd",
+      "votes": 4,
+      "id": 6
+    }
+  ]
+}
