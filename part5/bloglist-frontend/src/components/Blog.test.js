@@ -32,7 +32,7 @@ test('renders only title and author by default', () => {
 
 })
 
-/*it('clicking the button calls event handler twice', async () => {
+/*it ('clicking the button calls event handler twice', async () => {
   const blog = {
     title: 'titleTest',
     author: 'authorTest',
