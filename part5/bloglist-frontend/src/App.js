@@ -42,13 +42,17 @@ const App = () => {
       blogService
         .remove(blog.id)
         .then(setBlogs(blogs.filter(b => b.id !== blog.id)))
-
         .catch(error => {
-          setErrorMessage('blog already deleted')
+          setErrorMessage('blog already removed')
           setTimeout(() => {
             setErrorMessage(null)
           }, 5000)
         })
+
+      setMessage(`blog ${blog.title} by ${blog.author} removed!`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
@@ -59,6 +63,7 @@ const App = () => {
       .update(blog.id, likedBlog).then(returnedBlog => {
         const updatedBlogs = blogs.map(blog => blog.id !== likedBlog.id ? blog : returnedBlog)
         setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes))
+        setMessage(`blog ${blog.title} by ${blog.author} liked!`)
       })
       .catch(error => {
         setErrorMessage('blog not found')
