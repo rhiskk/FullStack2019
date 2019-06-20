@@ -60,7 +60,7 @@ const Blog = (props) => {
 
       <List>
         {props.blog.comments.map(comment => (
-          <List.Item size='medium' key={comment.id}>{comment.content}</List.Item>
+          <List.Item key={comment.id}>{comment.content}</List.Item>
         ))}
       </List>
     </div>
