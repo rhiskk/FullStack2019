@@ -2,10 +2,12 @@ const blogsRouter = require('express').Router()
 const jwt = require('jsonwebtoken')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const Comment = require('../models/comment')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})  
     .populate('user', { username: 1, name: 1 })
+    .populate('comments', { content:1 })
 
   response.json(blogs.map(b => b.toJSON()))
 })
@@ -25,7 +27,7 @@ blogsRouter.post('/', async (request, response) => {
     
   const user = await User.findById(decodedToken.id)
 
-  blog.user = user.id
+  blog.user = user
 
   if (!blog.url || !blog.title ) {
     return response.status(400).send({ error: 'title or url missing'}).end()
@@ -42,17 +44,34 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(result)
 })
 
+blogsRouter.post('/:id/comments', async(request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  if(!blog) {
+    return response.status(401).json({ error: 'blog missing or invalid' })
+  }
+  const comment = new Comment(request.body)
+  comment.blog = blog.id
+  const result = await comment.save()
+  blog.comments = blog.comments.concat(result)
+  await blog.save()
+
+  response.status(201).json(result)
+
+})
+
 blogsRouter.put('/:id', async (request, response) => {
-  const { author, title, url,likes } = request.body
+  const { author, title, url, likes} = request.body
 
   const blog = {
-    author, title, url, likes,
+    author, title, url, likes
   }
 
-  const updatedNote = await Blog
+  const updatedBlog = await Blog
     .findByIdAndUpdate(request.params.id, blog, { new: true })
-      
-  response.json(updatedNote.toJSON())
+    .populate('user', { username: 1, name: 1 })
+    .populate('comments', { content:1 })
+  
+  response.json(updatedBlog.toJSON())
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
