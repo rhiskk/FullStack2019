@@ -17,10 +17,15 @@ const NewBlog = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     props.createBlog(title.value, author.value, url.value)
-    notify(`a new blog ${title.value} by ${author.value} added`)
-    titleReset()
-    authorReset()
-    urlReset()
+      .then(
+        notify(`a new blog ${title.value} by ${author.value} added`),
+        titleReset(),
+        authorReset(),
+        urlReset()
+      )
+      .catch(error => {
+        notify(JSON.stringify(error.response.data), 'error')
+      })
   }
 
   return (
@@ -33,6 +38,7 @@ const NewBlog = (props) => {
           icon='edit outline'
           iconPosition='left'
           placeholder='title'
+          id='title'
           {...title} />
 
         <Form.Input
@@ -40,6 +46,7 @@ const NewBlog = (props) => {
           icon='male'
           iconPosition='left'
           placeholder='author'
+          id='author'
           {...author}
         />
         <Form.Input
@@ -47,10 +54,10 @@ const NewBlog = (props) => {
           icon='bookmark outline'
           iconPosition='left'
           placeholder='url'
-          type='password'
+          id='url'
           {...url}
         />
-        <Button color="pink" fluid size='large' type='submit'>create</Button>
+        <Button data-cy='create' color="pink" fluid size='large' type='submit'>create</Button>
       </Form>
     </div>
   )

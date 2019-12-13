@@ -64,7 +64,7 @@ const App = (props) => {
                   }
                 </Menu.Item>
                 <Menu.Item link>
-                  <Button color="pink" onClick={props.logout}>logout</Button>
+                  <Button data-cy='logout' color="pink" onClick={props.logout}>logout</Button>
                 </Menu.Item>
               </Menu>
             </div>

@@ -20,8 +20,8 @@ const Togglable = React.forwardRef((props, ref) => {
   return (
     <div>
       <div style={hideWhenVisible}>
-        <Button color="pink" fluid size='large' onClick={toggleVisibility}>
-          {props.buttonLabel}
+        <Button data-cy='toggleCreate' color="pink" fluid size='large' onClick={toggleVisibility}>
+          create new
         </Button>
       </div>
       <br/>

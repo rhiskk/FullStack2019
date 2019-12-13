@@ -44,6 +44,7 @@ const LoginForm = (props) => {
                 icon='user'
                 iconPosition='left'
                 placeholder='Username'
+                id='username'
                 {...username} />
 
               <Form.Input
@@ -51,11 +52,12 @@ const LoginForm = (props) => {
                 icon='lock'
                 iconPosition='left'
                 placeholder='Password'
+                id='password'
                 type='password'
                 {...password}
               />
 
-              <Button color='pink' fluid size='large' type="submit">Login</Button>
+              <Button id='login' color='pink' fluid size='large' type="submit">Login</Button>
             </Segment>
           </Form>
         </div>

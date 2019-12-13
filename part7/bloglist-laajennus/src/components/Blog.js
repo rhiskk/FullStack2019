@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { likeBlog, removeBlog, commentBlog } from '../reducers/blogReducer'
 import { Form, Button, List } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom'
 
 const Blog = (props) => {
   const [comment, commentReset] = useField('text')
@@ -24,6 +25,7 @@ const Blog = (props) => {
     const ok = window.confirm(`remove blog ${blog.title} by ${blog.author}`)
     if (ok) {
       props.removeBlog(blog)
+        .then(() => props.history.push('/'))
       notify(`blog ${blog.title} by ${blog.author} removed!`)
     }
   }
@@ -35,12 +37,26 @@ const Blog = (props) => {
     commentReset()
   }
 
-  const creator=props.blog.user.username === props.user.username
+  const creator = () => {
+    if (props.blog.user) {
+      return props.blog.user.username === props.user.username
+    } else {
+      return false
+    }
+  }
+
+  const addedBy = () => {
+    if (props.blog.user) {
+      return `added by ${props.blog.user.name}`
+    } else {
+      return 'creator has deleted account'
+    }
+  }
 
   const details = () => (
-    <div >
-      <a className="ui purple header" href={props.blog.url}>{props.blog.url}</a>
-      <h4 className="ui pink header">added by {props.blog.user.name}</h4>
+    <div>
+      <a className="ui purple header" href="https://google.com">{props.blog.url}</a>
+      <h4 className="ui pink header">{addedBy()}</h4>
       <div className="ui left labeled button" tabIndex="0">
         <p className="ui basic pink right pointing label">
           {props.blog.likes}
@@ -49,7 +65,13 @@ const Blog = (props) => {
           <i className="heart icon"></i> Like
         </div>
       </div>
-      {creator &&(<Button color='yellow' onClick={() => remove(props.blog)}>remove </Button>)}
+      {creator() &&(
+        <Button
+          color='yellow'
+          onClick={() => remove(props.blog)}>
+
+          remove
+        </Button>)}
 
       <h4>Comments</h4>
       <Form onSubmit={handleSubmit}>
@@ -90,4 +112,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Blog)
+)(withRouter(Blog))
