@@ -55,7 +55,7 @@ const Blog = (props) => {
 
   const details = () => (
     <div>
-      <a className="ui purple header" href="https://google.com">{props.blog.url}</a>
+      <a className="ui purple header" href={`https://${props.blog.url}`}>{props.blog.url}</a>
       <h4 className="ui pink header">{addedBy()}</h4>
       <div className="ui left labeled button" tabIndex="0">
         <p className="ui basic pink right pointing label">
