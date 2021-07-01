@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const Book = require('./models/book')
 const Author = require('./models/author')
+const User = require('./models/user')
 
 const JWT_SECRET = 'SECRET_KEY'
 const MONGODB_URI = 'mongodb://localhost:27017/gql'
@@ -103,6 +104,7 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args, context) => {
+      console.log(context.currentUser)
       if (!context.currentUser) {
         throw new AuthenticationError("not authenticated")
       }
@@ -124,6 +126,7 @@ const resolvers = {
         })
     },
     editAuthor: (root, args, context) => {
+      console.log(currentUser)
       if (!context.currentUser) {
         throw new AuthenticationError("not authenticated")
       }
@@ -136,7 +139,7 @@ const resolvers = {
         })
     },
     createUser: (root, args) => {
-      return new User({ username: args.username })
+      return new User({ username: args.username, favoriteGenre: args.favoriteGenre })
         .save()
         .catch(error => {
           throw new UserInputError(error.message, {
@@ -170,6 +173,9 @@ const server = new ApolloServer({
       const decodedToken = jwt.verify(
         auth.substring(7), JWT_SECRET
       )
+      const currentUser = await User
+        .findById(decodedToken.id)
+      return { currentUser }
     }
   }
 })
