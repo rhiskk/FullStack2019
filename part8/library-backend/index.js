@@ -50,6 +50,7 @@ const typeDefs = gql`
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+    allGenres: [String]!
     me: User
   }
 
@@ -87,6 +88,11 @@ const resolvers = {
         return Book.find({ genres: { $in: args.genre } }).populate('author')
       }
       return Book.find({}).populate('author')
+    },
+    allGenres: async () => {
+      const books = await Book.find({})
+      const genres = [ ...new Set(books.map(b => b.genres).flat(2)) ]
+      return genres
     },
     allAuthors: () => Author.find({}),
     me: (root, args, context) => {
