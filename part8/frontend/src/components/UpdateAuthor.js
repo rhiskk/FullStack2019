@@ -17,7 +17,7 @@ const UpdateAuthor = ( { authors } ) => {
   const submit = async (event) => {
     event.preventDefault()
     
-    console.log('add book...')
+    console.log('update author...')
 
     editAuthor({ variables: {name: option.value, setBornTo: Number(born)} })
 
