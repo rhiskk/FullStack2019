@@ -11,16 +11,22 @@ const BOOK_DETAILS = gql`
     id
   }
 `
+const AUTHOR_DETAILS = gql`
+  fragment AuthorDetails on Author {
+    name
+    born
+    bookCount
+    id
+  }
+`
 
 export const ALL_AUTHORS = gql`
   query {
     allAuthors {
-      name
-      born
-      bookCount
-      id
+      ...AuthorDetails
     }
   }
+  ${AUTHOR_DETAILS}
 `
 
 export const ALL_BOOKS = gql`
@@ -67,12 +73,10 @@ export const EDIT_AUTHOR = gql`
       name: $name
       setBornTo: $setBornTo
     ) {
-      name
-      born
-      bookCount
-      id
+      ...AuthorDetails
     }
   }
+  ${AUTHOR_DETAILS}
 `
 
 export const LOGIN = gql`

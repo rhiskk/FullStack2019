@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
   born: {
     type: Number,
   },
-}, { toJSON: { virtuals: true } })
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true} })
 
 schema.virtual('bookCount', {
   ref: 'Book',

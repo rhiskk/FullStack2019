@@ -17,8 +17,6 @@ const Authors = (props) => {
     )
   }
 
-  const authors = result.data?.allAuthors
-
   return (
     <div>
       <div>
@@ -34,7 +32,7 @@ const Authors = (props) => {
                 books
             </th>
             </tr>
-            {authors?.map(a =>
+            {result.data?.allAuthors?.map(a =>
               <tr key={a.id}>
                 <td>{a.name}</td>
                 <td>{a.born}</td>
@@ -44,7 +42,7 @@ const Authors = (props) => {
           </tbody>
         </table>
       </div>
-      {props.token && (<UpdateAuthor authors={authors}/>)}
+      {props.token && (<UpdateAuthor authors={result.data?.allAuthors}/>)}
     </div>
   )
 }

@@ -6,7 +6,7 @@ const Recommend = (props) => {
     const userQuery = useQuery(ME)
     const booksQuery = useQuery(ALL_BOOKS)
 
-    if (!props.show) {
+    if (!props.show || !props.token) {
         return null
     }
 
@@ -14,7 +14,7 @@ const Recommend = (props) => {
         return <div>loading...</div>
     }
 
-    const favoriteGenre = userQuery.data?.me.favoriteGenre
+    const favoriteGenre = userQuery.data?.me?.favoriteGenre
     const books = booksQuery.data.allBooks.filter(b => b.genres.includes(favoriteGenre))
 
     return (

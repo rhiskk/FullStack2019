@@ -114,6 +114,7 @@ const resolvers = {
         { name: args.author },
         { name: args.author }, // name must be mentioned here for runValidators to work
         { runValidators: true, context: 'query', new: true, upsert: true })
+        .populate('bookCount')
         .catch(error => {
           throw new UserInputError(error.message, {
             invalidArgs: args,
@@ -136,7 +137,7 @@ const resolvers = {
       return Author.findOneAndUpdate(
         { name: args.name },
         { born: args.setBornTo },
-        { new: true })
+        { new: true }).populate('bookCount')
         .then(a => {
           return a
         })
