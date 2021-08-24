@@ -1,8 +1,6 @@
-import patientData from '../data/patients.json';
+import patientData from '../data/patients';
 import { v1 as uuid } from 'uuid';
 import { Patient, PublicPatient, Gender } from '../types';
-
-const patients: Array<Patient> = patientData as Array<Patient>;
 
 const publicPatients: Array<PublicPatient> = patientData.map(
     ({ id, name, dateOfBirth, gender, occupation }) => ({
@@ -14,7 +12,7 @@ const getPatients = (): Array<PublicPatient> => {
 };
 
 const getPatient = (id: string): Patient | undefined => {
-    return patients.find(p => p.id === id);
+    return patientData.find(p => p.id === id);
 };
 
 const addPatient = (name: string, dateOfBirth: string, ssn: string, gender: Gender, occupation: string): Patient => {
