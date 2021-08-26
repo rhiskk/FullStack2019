@@ -42,6 +42,7 @@ const Hospital: React.FC<{ entry: HospitalEntry, diagnoses: { [code: string]: Di
                     {entry.discharge.date}
                     <br></br>
                     {entry.discharge.criteria}
+                    <p>{entry.specialist}</p>
                 </Card.Description>
             </Card.Content>
         </Card>
@@ -67,6 +68,7 @@ const Occupational: React.FC<{ entry: OccupationalHealthcareEntry, diagnoses: { 
                     <br></br>
                     {entry.sickLeave?.startDate} - {entry.sickLeave?.endDate}
                     </div>}
+                    <p>{entry.specialist}</p>
                 </Card.Description>
             </Card.Content>
         </Card>
@@ -90,6 +92,7 @@ const Health: React.FC<{ entry: HealthCheckEntry, diagnoses: { [code: string]: D
                     {entry.healthCheckRating === 1 && <Icon color='yellow' name='heart' />}
                     {entry.healthCheckRating === 2 && <Icon color='red' name='heart' />}
                     {entry.healthCheckRating === 3 && <Icon color='purple' name='heart' />}
+                    <p>{entry.specialist}</p>
                 </Card.Description>
             </Card.Content>
         </Card>

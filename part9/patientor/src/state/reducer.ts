@@ -1,5 +1,5 @@
 import { State } from "./state";
-import { Diagnosis, Patient } from "../types";
+import { Diagnosis, Patient, } from "../types";
 
 export type Action =
   | {
@@ -53,7 +53,7 @@ export const reducer = (state: State, action: Action): State => {
             (memo, diagnose) => ({ ...memo, [diagnose.code]: diagnose }),
             {}
           ),
-          ...state.patients
+          ...state.diagnoses
         }
       };
     default:

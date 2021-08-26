@@ -1,6 +1,6 @@
 import patientData from '../data/patients';
 import { v1 as uuid } from 'uuid';
-import { Patient, PublicPatient, Gender } from '../types';
+import { Patient, PublicPatient, Gender, EntryWithoutId } from '../types';
 
 const publicPatients: Array<PublicPatient> = patientData.map(
     ({ id, name, dateOfBirth, gender, occupation }) => ({
@@ -22,8 +22,20 @@ const addPatient = (name: string, dateOfBirth: string, ssn: string, gender: Gend
     return newPatient;
 };
 
+const addEntry = (patientId: string, entry: EntryWithoutId): Patient => {
+    const patient = getPatient(patientId);
+    if(!patient) {
+        throw new Error('Patient not found');
+    }
+    const entryId = uuid();
+    const newEntry = {...entry, id: entryId};
+    patient.entries.push(newEntry);
+    return patient;
+};
+
 export default {
     getPatients,
     addPatient,
-    getPatient
+    getPatient,
+    addEntry
 };
