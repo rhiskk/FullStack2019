@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
-import theme from '../theme';
+import { View, StyleSheet } from 'react-native';
+import { Link } from "react-router-native";
 import Text from './Text';
 
 
@@ -12,19 +12,26 @@ const styles = StyleSheet.create({
     }
 });
 
-const AppBarTab = (text) => {
+const AppBarTab = (tab) => {
+    const link = () => {
+        switch (tab.children) {
+            case "Sign in":
+                return "/signIn";
+            case "Repositories":
+                return "/";
+            default:
+                return "/";
+        }
+    };
     return (
         <View style={styles.tab}>
-            <Pressable
-            onPress={() => {
-                console.log("pressed ", {...text});
-            }}>
+            <Link to={link()}>
                 <Text
-                    style={{ color: theme.colors.white}}
+                    color="white"
                     fontWeight="bold"
-                    {...text}
+                    {...tab}
                 />
-            </Pressable>
+            </Link>
         </View>
     );
 };
