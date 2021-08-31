@@ -24,30 +24,31 @@ const styles = StyleSheet.create({
     },
     description: {
         flexDirection: "row",
-        flexGrow: 1,
         flexWrap: "wrap",
         marginBottom: 6,
-        marginRight: 60
     },
     rowContainer: {
         margin: 10,
-        flexDirection: 'row',
-        alignItems: "flex-start"
+        flexDirection: 'row'
     },
     columnContainer: {
+        flexShrink: 1,
         flexDirection: 'column',
-        flexWrap: "wrap",
         alignItems: "flex-start",
-        paddingTop: 3
+        paddingTop: 3,
     },
     statColumnContainer: {
+        flexShrink: 1,
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginHorizontal: 20,
     },
     statRowContainer: {
+        flexShrink: 1,
         marginVertical: 5,
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around'
     },
 
 });
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
 
 const suffix = (number) => {
     if (number < 1000) return number;
-    return (Number.parseFloat(number) / 1000).toPrecision(3) + "k";
+    return Number((parseFloat(number) / 1000).toFixed(1)) + "k";
 };
 
 const StatBlock = ({ title, number }) => {
