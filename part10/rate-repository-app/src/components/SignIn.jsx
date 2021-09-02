@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
+import { useHistory } from "react-router-native";
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import FormikTextInput from './FormikTextInput';
 import Text from './Text';
 import theme from '../theme';
+import { useSignIn } from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
     container: {
@@ -19,10 +21,6 @@ const styles = StyleSheet.create({
         alignItems: "center"
     }
 });
-
-const onSubmit = (values) => {
-    console.log(values);
-};
 
 const initialValues = {
     name: '',
@@ -41,7 +39,9 @@ const validationSchema = yup.object().shape({
         .min(4, "Must be atleast 4 digits")
 });
 
-const SignInForm = () => {
+
+
+const SignInForm = ({ onSubmit }) => {
     return (
         <View style={styles.container}>
             <FormikTextInput name="username" placeholder="Username" />
@@ -56,6 +56,19 @@ const SignInForm = () => {
 };
 
 const SignIn = () => {
+    const history = useHistory();
+    const [signIn] = useSignIn();
+
+    const onSubmit = async (values) => {
+        const { username, password } = values;
+        try {
+            await signIn({ username, password });
+            history.push("/");
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return (
         <Formik
             initialValues={initialValues}

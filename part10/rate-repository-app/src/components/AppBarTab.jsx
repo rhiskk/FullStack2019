@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { Link } from "react-router-native";
 import Text from './Text';
-
+import { useSignOut } from '../hooks/useSignOut';
 
 const styles = StyleSheet.create({
     tab: {
@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 });
 
 const AppBarTab = (tab) => {
+    const [signOut] = useSignOut();
     const link = () => {
         switch (tab.children) {
             case "Sign in":
@@ -25,13 +26,23 @@ const AppBarTab = (tab) => {
     };
     return (
         <View style={styles.tab}>
-            <Link to={link()}>
-                <Text
-                    color="white"
-                    fontWeight="bold"
-                    {...tab}
-                />
-            </Link>
+            {tab.children === "Sign out"
+                ? <Pressable onPress={() => signOut()}>
+                    <Text
+                        color="white"
+                        fontWeight="bold"
+                        {...tab}
+                    />
+                </Pressable>
+
+                : <Link to={link()}>
+                    <Text
+                        color="white"
+                        fontWeight="bold"
+                        {...tab}
+                    />
+                </Link>
+            }
         </View>
     );
 };
