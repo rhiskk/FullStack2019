@@ -59,10 +59,10 @@ const suffix = (number) => {
     return Number((parseFloat(number) / 1000).toFixed(1)) + "k";
 };
 
-const StatBlock = ({ title, number }) => {
+const StatBlock = ({ title, number, testID }) => {
     return (
         <View style={styles.statColumnContainer}>
-            <Text fontWeight='bold' style={{ paddingBottom: 5 }}>{suffix(number)}</Text>
+            <Text fontWeight='bold' style={{ paddingBottom: 5 }} testID={testID}>{suffix(number)}</Text>
             <Text color="textSecondary">{title}</Text>
         </View>
     );
@@ -79,20 +79,20 @@ const RepositoryItem = ({ repository }) => {
                     }}
                 />
                 <View style={styles.columnContainer}>
-                    <Text fontWeight="bold" fontSize="subheading" style={{ paddingBottom: 5 }}>{repository.fullName}</Text>
+                    <Text fontWeight="bold" fontSize="subheading" style={{ paddingBottom: 5 }} testID="fullName">{repository.fullName}</Text>
                     <View style={styles.description}>
-                        <Text color="textSecondary" style={{ paddingVertical: 5 }}>{repository.description}</Text>
+                        <Text color="textSecondary" style={{ paddingVertical: 5 }} testID="description">{repository.description}</Text>
                     </View>
                     <View style={styles.language}>
-                        <Text color="white" style={{ marginVertical: 5 }}>{repository.language}</Text>
+                        <Text color="white" style={{ marginVertical: 5 }} testID="language">{repository.language}</Text>
                     </View>
                 </View>
             </View>
             <View style={styles.statRowContainer}>
-                <StatBlock title="Stars" number={repository.stargazersCount} />
-                <StatBlock title="Forks" number={repository.forksCount} />
-                <StatBlock title="Reviews" number={repository.reviewCount} />
-                <StatBlock title="Rating" number={repository.ratingAverage} />
+                <StatBlock title="Stars" number={repository.stargazersCount} testID="stargazersCount"/>
+                <StatBlock title="Forks" number={repository.forksCount} testID="forksCount"/>
+                <StatBlock title="Reviews" number={repository.reviewCount} testID="reviewCount"/>
+                <StatBlock title="Rating" number={repository.ratingAverage} testID="ratingAverage"/>
             </View>
         </View>
     );

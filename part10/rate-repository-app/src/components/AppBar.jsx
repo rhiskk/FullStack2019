@@ -5,7 +5,6 @@ import AppBarTab from './AppBarTab';
 import theme from '../theme';
 import { useQuery } from '@apollo/client';
 import { GET_AUTHORIZED } from '../graphql/queries';
-//import { useSignOut } from '../hooks/useSignOut';
 
 const styles = StyleSheet.create({
     container: {
@@ -17,7 +16,6 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
     const { data } = useQuery(GET_AUTHORIZED);
-    console.log(data);
     return (
         <View style={styles.container}>
             <ScrollView horizontal>
