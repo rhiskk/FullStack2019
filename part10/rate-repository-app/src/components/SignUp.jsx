@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import FormikTextInput from './FormikTextInput';
 import Text from './Text';
 import theme from '../theme';
-import { useSignIn } from '../hooks/useSignIn';
+import { useSignUp } from '../hooks/useSignUp';
 
 const styles = StyleSheet.create({
     container: {
@@ -25,60 +25,70 @@ const styles = StyleSheet.create({
 const initialValues = {
     username: '',
     password: '',
+    passwordConfirmation: ''
 };
 
 const validationSchema = yup.object().shape({
     username: yup
         .string()
-        .required("Username is required"),
+        .required("Username is required")
+        .min(1)
+        .max(30),
     password: yup
         .string()
         .required("Password is required")
+        .min(5)
+        .max(50),
+    passwordConfirmation: yup
+        .string()
+        .required("Password confirmation is required")
+        .oneOf([yup.ref('password')], "Passwords don't match")
 });
 
 
-export const SignInContainer = ({ onSubmit }) => {
+export const SignUpContainer = ({ onSubmit }) => {
     return (
         <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
         >
-            {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+            {({ handleSubmit }) => <SignUpForm onSubmit={handleSubmit} />}
         </Formik>
     );
 };
 
 
-export const SignInForm = ({ onSubmit }) => {
+export const SignUpForm = ({ onSubmit }) => {
     return (
         <View style={styles.container}>
             <FormikTextInput name="username" placeholder="Username" testID="usernameField"/>
             <FormikTextInput name="password" placeholder="Password" secureTextEntry testID="passwordField" />
+            <FormikTextInput name="passwordConfirmation" placeholder="Password confirmation" secureTextEntry testID="passwordConfirmationField" />
             <View style={styles.button}>
                 <Pressable onPress={onSubmit} testID="submitButton">
-                    <Text fontWeight="bold" color="white">Sign In</Text>
+                    <Text fontWeight="bold" color="white">Sign Up</Text>
                 </Pressable>
             </View>
         </View>
     );
 };
 
-const SignIn = () => {
+const SignUp = () => {
     const history = useHistory();
-    const [signIn] = useSignIn();
+    const [signUp] = useSignUp();
 
     const onSubmit = async (values) => {
         const { username, password } = values;
         try {
-            await signIn({ username, password });
-            history.push("/");
+            await signUp({ username, password });
+            history.push("/SignIn");
         } catch (e) {
             console.log(e);
         }
     };
 
-    return <SignInContainer onSubmit={onSubmit} />;
+    return <SignUpContainer onSubmit={onSubmit} />;
 };
 
-export default SignIn;
+export default SignUp;
