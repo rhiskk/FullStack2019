@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const middleware = require("../util/middleware");
+const { Op } = require("sequelize");
 const { Blog, User } = require("../models");
 
 const tokenExtractor = middleware.tokenExtractor;
@@ -16,8 +17,23 @@ router.get("/", async (req, res) => {
       model: User,
       attributes: ["name"],
     },
+    where: {
+      [Op.or]: [
+        {
+          title: {
+            [Op.substring]: req.query.search ? req.query.search : "",
+          },
+        },
+        {
+          author: {
+            [Op.substring]: req.query.search ? req.query.search : "",
+          },
+        },
+      ],
+    },
+    order: [["likes", "DESC"]],
   });
-  //console.log(JSON.stringify(blogs, null, 2));
+
   res.json(blogs);
 });
 
