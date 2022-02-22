@@ -1,5 +1,8 @@
 const router = require("express").Router();
-const { Blog } = require("../models");
+const middleware = require("../util/middleware");
+const { Blog, User } = require("../models");
+
+const tokenExtractor = middleware.tokenExtractor;
 
 const blogFinder = async (req, res, next) => {
   req.blog = await Blog.findByPk(req.params.id);
@@ -7,25 +10,32 @@ const blogFinder = async (req, res, next) => {
 };
 
 router.get("/", async (req, res) => {
-  const blogs = await Blog.findAll();
+  const blogs = await Blog.findAll({
+    attributes: { exclude: ["userId"] },
+    include: {
+      model: User,
+      attributes: ["name"],
+    },
+  });
   //console.log(JSON.stringify(blogs, null, 2));
   res.json(blogs);
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", tokenExtractor, async (req, res, next) => {
   try {
-    const blog = await Blog.create(req.body);
+    const user = await User.findByPk(req.decodedToken.id);
+    const blog = await Blog.create({ ...req.body, userId: user.id });
     res.status(201).json(blog);
   } catch (error) {
     next(error);
   }
 });
 
-router.delete("/:id", blogFinder, async (req, res) => {
-  if (req.blog) {
+router.delete("/:id", tokenExtractor, blogFinder, async (req, res) => {
+  if (req.blog?.userId === req.decodedToken.id) {
     await req.blog.destroy();
   }
-  res.status(204).end();
+  res.status(401).end();
 });
 
 router.put("/:id", blogFinder, async (req, res, next) => {
