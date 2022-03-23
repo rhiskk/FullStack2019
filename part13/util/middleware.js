@@ -1,6 +1,8 @@
 const logger = require("./logger");
-const jwt = require('jsonwebtoken');
-const { SECRET } = require('../util/config')
+const jwt = require("jsonwebtoken");
+const { SECRET } = require("../util/config");
+const Session = require("../models/session");
+const { User } = require("../models");
 
 const requestLogger = (req, res, next) => {
   logger.info("Method:", req.method);
@@ -38,9 +40,32 @@ const tokenExtractor = (req, res, next) => {
   next();
 };
 
+const sessionChecker = async (req, res, next) => {
+  try {
+    const session = await Session.findOne({
+      where: {
+        sid: req.session.id,
+      },
+    });
+
+    if (!session) {
+      res.status(401).json({ error: "server side session not found" });
+    }
+
+    req.user = await User.findByPk(req.session.userId);
+    if (req.user.disabled) {
+      res.status(401).json({ error: "account disabled" });
+    }
+    next();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
   tokenExtractor,
+  sessionChecker,
 };

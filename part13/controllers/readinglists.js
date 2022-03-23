@@ -1,8 +1,6 @@
 const router = require("express").Router();
-const middleware = require("../util/middleware");
+const {sessionChecker} = require("../util/middleware");
 const { Blog, User, UserBlogs } = require("../models");
-
-const tokenExtractor = middleware.tokenExtractor;
 
 router.post("/", async (req, res, next) => {
   try {
@@ -19,10 +17,10 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:id", tokenExtractor, async (req, res, next) => {
+router.put("/:id", sessionChecker, async (req, res, next) => {
   try {
     reading = await UserBlogs.findByPk(req.params.id);
-    if (reading && reading.userId === req.decodedToken.id) {
+    if (reading && reading.userId === req.user.id) {
       reading.read = req.body.read
       await reading.save()
       res.json(reading);
